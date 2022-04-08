@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signOut,
   GithubAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { useState } from "react";
 
@@ -16,6 +17,7 @@ function App() {
   const [user, setUser] = useState({});
   const googleProvider = new GoogleAuthProvider();
   const githubProvider = new GithubAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
@@ -29,8 +31,22 @@ function App() {
       });
   };
 
+  //github signIn btn
   const handleGithubSignIn = () => {
     signInWithPopup(auth, githubProvider)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        console.log(user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  //facebook sign in btn
+  const handleFacebookSignIn = () => {
+    signInWithPopup(auth, facebookProvider)
       .then((result) => {
         const user = result.user;
         setUser(user);
@@ -64,6 +80,7 @@ function App() {
         //fragment <> diver moto kaj korbe, div banabe na
         <>
           <button onClick={handleGoogleSignIn}>Google Sign In</button>
+          <button onClick={handleFacebookSignIn}>Facebook Sign In</button>
           <button onClick={handleGithubSignIn}>Github Sign In</button>
         </>
       )}
